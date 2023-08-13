@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import Navbar from "./Navbar";
 
 function Login() {
 
@@ -12,7 +11,7 @@ function Login() {
   const loginUser = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("/signin", {
+    const res = await fetch("/admin-signin", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,7 +40,6 @@ function Login() {
 
   return (
     <div>
-      <Navbar />
       <h1 className="text-center mt-4">Log in</h1>
 
       <div className="container">

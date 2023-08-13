@@ -1,13 +1,13 @@
 import React,{ useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 
 function Signup() {
 
   const navigate = useNavigate();
 
   const [user, setUser] = useState({
-    name:"", email: "", number: "", work:"", password: "", cpassword: ""
+    name:"", email: "", number: "", password: "", cpassword: ""
   });
 
   let name, value;
@@ -22,7 +22,7 @@ function Signup() {
   const postData = async (e) =>{
     e.preventDefault();
 
-    const { name, email, number, work, password, cpassword } = user;
+    const { name, email, number, password, cpassword } = user;
 
     const resp = await fetch("/register", {
       method: "POST",
@@ -30,7 +30,7 @@ function Signup() {
         "Content-Type" : "application/json"
       },
       body: JSON.stringify({
-        name:name, email:email, number:number, work:work, password:password, cpassword:cpassword
+        name:name, email:email, number:number, password:password, cpassword:cpassword
       })
     });
 
@@ -97,18 +97,7 @@ function Signup() {
               placeholder="phone"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputProfession">Your Profession</label>
-            <input
-              type="text"
-              name="work"
-              className="form-control"
-              id="exampleInputProfession"
-              value={user.work}
-              onChange={handleInputs}
-              placeholder="Your Profession"
-            />
-          </div>
+
           <div className="form-group">
             <label htmlFor="exampleInputPassword">Password</label>
             <input
