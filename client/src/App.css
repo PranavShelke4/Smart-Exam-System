@@ -1,0 +1,10 @@
+#nav-item{
+  text-decoration: none !important;
+  color: rgb(104, 100, 100);
+  font-size: 1.1rem;
+  margin-left: 1rem;
+}
+
+#nav-item:hover{
+  color: black;
+}
