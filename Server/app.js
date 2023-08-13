@@ -23,6 +23,6 @@ app.get("/contect", (req, res) => {
 
 
 app.listen(PORT, () => {
-  console.log('server is runing at port 8000');
+  console.log(`Server is running at port ${PORT}`);
 });
 
