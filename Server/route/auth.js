@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
 const Authenticate = require("../middleware/authenticate");
+const AuthenticateAdmin = require("../middleware/adminAuth");
 
 require("../db/conn");
 const User = require("../model/userSchema");
@@ -39,33 +40,6 @@ router.post("/register", async (req, res) => {
     console.log(err);
   }
 });
-
-
-// Admin Signup API
-router.post("/admin-signup", async (req, res) => {
-  const { name, email, number, password } = req.body;
-
-  if (!name || !email || !password) {
-    return res.status(422).json({ error: "Please fill all fields" });
-  }
-
-  try {
-    const adminExist = await Admin.findOne({ email: email });
-
-    if (adminExist) {
-      return res.status(422).json({ error: "Email Already Exist" });
-    } else {
-      const admin = new Admin({ name, email, number, password });
-
-      await admin.save();
-
-      res.status(201).json({ message: "Admin Registered Successfully" });
-    }
-  } catch (err) {
-    console.log(err);
-  }
-});
-
 
 //Student Login API
 
@@ -106,6 +80,37 @@ router.post("/signin", async (req, res) => {
   }
 });
 
+// Admin Signup API
+router.post("/admin-signup", async (req, res) => {
+  const { name, email, number, password, cpassword } = req.body;
+
+  if (!name || !email || !number || !password || !cpassword) {
+    return res.status(422).json({ error: "Please fill all fields" });
+  }
+
+  try {
+    const adminExist = await Admin.findOne({ email: email });
+
+    if (adminExist) {
+      return res.status(422).json({ error: "Email Already Exists" });
+    } else if (password !== cpassword) {
+      return res.status(422).json({ error: "Passwords do not match" });
+    } else {
+      const admin = new Admin({ name, email, number, password });
+
+      // Hash the password before saving
+      const salt = await bcrypt.genSalt(10);
+      admin.password = await bcrypt.hash(password, salt);
+
+      await admin.save();
+
+      res.status(201).json({ message: "Admin Registered Successfully" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
 
 // Admin Login API
 router.post("/admin-signin", async (req, res) => {
@@ -122,9 +127,9 @@ router.post("/admin-signin", async (req, res) => {
       const adminPassword = await bcrypt.compare(password, adminLogin.password);
 
       if (!adminPassword) {
-        res.status(400).json({ error: "Invalid Credentials" });
+        return res.status(400).json({ error: "Invalid Credentials" });
       } else {
-        // JWT token generation
+        // Generate JWT token
         const token = jwt.sign({ _id: adminLogin._id }, process.env.SECRET_KEY);
 
         // Set token in cookies
@@ -133,27 +138,26 @@ router.post("/admin-signin", async (req, res) => {
           secure: process.env.NODE_ENV === "production", // Use secure cookies in production
         });
 
-        res.json({ message: "Admin Signin Successful" });
+        return res.json({ message: "Admin Signin Successful" });
       }
     } else {
-      res.status(400).json({ error: "Invalid Credentials" });
+      return res.status(400).json({ error: "Invalid Credentials" });
     }
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ error: "Server Error" });
   }
 });
-
 
 router.get("/student-dashbord", Authenticate, (req, res) => {
   res.send(req.rootUser);
 });
 
-
-router.get("/student-data", Authenticate, (req,res) => {
+router.get("/student-data", Authenticate, (req, res) => {
   res.send(req.rootUser);
-})
+});
 
-router.get("/admin-dashbord", Authenticate, (req, res) => {
+router.get("/admin-dashbord", AuthenticateAdmin, (req, res) => {
   res.send(req.rootUser);
 });
 

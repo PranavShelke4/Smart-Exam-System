@@ -2,15 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
-
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginUser = async (e) => {
+  const loginAdmin = async (e) => {
     e.preventDefault();
-
+  
     const res = await fetch("/admin-signin", {
       method: "POST",
       headers: {
@@ -21,21 +19,18 @@ function Login() {
         password: password,
       }),
     });
-
-    const data = res.json();
-
-    console.log(data);
-
-    if(res.status === 400 || !data){
+  
+    const data = await res.json();
+  
+    if (res.status === 400 || !data) {
       window.alert("Invalid Credentials");
       console.log("Invalid Credentials");
-    }else{
-      window.alert("Login Successfull");
-      console.log("Login Successfull");
-
-      navigate("/");
+    } else {
+      window.alert("Login Successful");
+      console.log("Login Successful");
+  
+      navigate("/admin-dashbord");
     }
-
   };
 
   return (
@@ -48,7 +43,7 @@ function Login() {
             <label htmlFor="exampleInputEmail1">Email address</label>
             <input
               type="email"
-              class="form-control"
+              className="form-control"
               id="exampleInputEmail1"
               aria-describedby="emailHelp"
               placeholder="Enter email"
@@ -60,7 +55,7 @@ function Login() {
             <label htmlFor="exampleInputPassword1">Password</label>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="exampleInputPassword1"
               placeholder="Password"
               value={password}
@@ -70,9 +65,9 @@ function Login() {
 
           <div className="text-center">
             <button
-              onClick={loginUser}
+              onClick={loginAdmin}
               type="submit"
-              class="btn btn-primary  m-4"
+              className="btn btn-primary m-4"
             >
               Login
             </button>
