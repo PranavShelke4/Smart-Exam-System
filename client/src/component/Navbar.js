@@ -14,7 +14,6 @@ function navbar() {
             <Nav className="me-auto justify-content-end" style={{ width: "100%" }}>
               <NavLink id="nav-item" to={"/"}>Home</NavLink>
               <NavLink id="nav-item" to={"/login"}>Login</NavLink>
-              <NavLink id="nav-item" to={"/signup"}>Signup</NavLink>
             </Nav>
           </Navbar.Collapse>
         </Container>

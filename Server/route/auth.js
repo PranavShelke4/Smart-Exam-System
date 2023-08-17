@@ -158,7 +158,7 @@ router.get("/student-data", Authenticate, (req, res) => {
 });
 
 router.get("/admin-dashbord", AuthenticateAdmin, (req, res) => {
-  res.send(req.rootUser);
+  res.send(req.rootAdmin);
 });
 
 // Logout API

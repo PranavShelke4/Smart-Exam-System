@@ -36,17 +36,20 @@ function Sidebarr() {
             Dashbord
           </MenuItem>
           <SubMenu label="Student">
-            <MenuItem component={<Link to="#" />}> All Students</MenuItem>
-            <MenuItem component={<Link to="#" />}> Add Student</MenuItem>
+            <MenuItem component={<Link to="/all-student" />}> All Students</MenuItem>
+            <MenuItem component={<Link to="/add-student" />}> Add Student</MenuItem>
           </SubMenu>
           <SubMenu label="Test">
             <MenuItem component={<Link to="#" />}> All Test</MenuItem>
             <MenuItem component={<Link to="#" />}> Add New Test</MenuItem>
           </SubMenu>
           <SubMenu label="Admin">
-            <MenuItem component={<Link to="#" />}> All Admins</MenuItem>
-            <MenuItem component={<Link to="#" />}> Add Admin</MenuItem>
+            <MenuItem component={<Link to="/all-admin" />}> All Admins</MenuItem>
+            <MenuItem component={<Link to="/add-admin" />}> Add Admin</MenuItem>
           </SubMenu>
+          <MenuItem component={<Link to="/admin-profile" />}>
+            Profile
+          </MenuItem>
           <MenuItem>
             <button onClick={handleLogout} className="nav-link btn btn-link">
               Logout

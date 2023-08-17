@@ -6,15 +6,15 @@ const AuthenticateAdmin = async (req, res, next) => {
         const token = req.cookies.adminToken; // Cookie name for admin token
         const verifyToken = jwt.verify(token, process.env.SECRET_KEY);
 
-        const admin = await Admin.findOne({ _id: verifyToken._id, "tokens.token": token });
+        const rootAdmin = await Admin.findOne({ _id: verifyToken._id, "tokens.token": token });
 
-        if (!admin) {
+        if (!rootAdmin) {
             throw new Error('Admin not found');
         }
 
         req.token = token;
-        req.admin = admin;
-        req.adminID = admin._id;
+        req.rootAdmin = rootAdmin;
+        req.adminID = rootAdmin._id;
 
         next();
     } catch (err) {
@@ -24,3 +24,4 @@ const AuthenticateAdmin = async (req, res, next) => {
 };
 
 module.exports = AuthenticateAdmin;
+
