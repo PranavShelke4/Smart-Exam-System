@@ -161,11 +161,17 @@ router.get("/admin-dashbord", AuthenticateAdmin, (req, res) => {
   res.send(req.rootUser);
 });
 
-//logout
-router.get("/logout", (req, res) => {
-  console.log("Hello my logout Page");
-  res.clearCookie("jwtokan", { path: "/" });
-  res.status(200).send("User Logout");
+// Logout API
+router.get("/logout", async (req, res) => {
+  try {
+    res.clearCookie("jwtokan", { path: "/" }); // Clear the jwtokan cookie
+    res.clearCookie("adminToken", { path: "/" }); // Clear the adminToken cookie
+    res.status(200).send("User Logout");
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server Error" });
+  }
 });
+
 
 module.exports = router;
