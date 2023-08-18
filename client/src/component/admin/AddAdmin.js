@@ -81,7 +81,7 @@ function Signup() {
       window.alert("Invalid Registration");
       console.log("Invalid Registration");
     } else {
-      window.alert("Registration Successfull");
+      window.alert("Admin Registration Successfull");
       console.log("Registration Successfull");
 
       navigate("/all-admin");

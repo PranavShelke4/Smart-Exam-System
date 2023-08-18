@@ -161,6 +161,39 @@ router.get("/admin-dashbord", AuthenticateAdmin, (req, res) => {
   res.send(req.rootAdmin);
 });
 
+// Get All Admin
+router.get("/all-admins", AuthenticateAdmin, async (req, res) => {
+  try {
+    const allAdmins = await Admin.find();
+    res.status(200).json({ admins: allAdmins });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+// DELETE Admin by ID
+router.delete("/delete-admin/:id", AuthenticateAdmin, async (req, res) => {
+  try {
+    const adminToDelete = await Admin.findById(req.params.id);
+
+    if (!adminToDelete) {
+      return res.status(404).json({ message: "Admin not found" });
+    }
+
+    if (adminToDelete._id.equals(req.adminID)) {
+      return res.status(400).json({ message: "Cannot delete currently logged-in admin" });
+    }
+
+    await adminToDelete.remove();
+    res.status(200).json({ message: "Admin deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
 // Logout API
 router.get("/logout", async (req, res) => {
   try {
