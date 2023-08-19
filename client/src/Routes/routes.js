@@ -9,6 +9,9 @@ import AddStudent from '../component/admin/AddStudent';
 import AllStudent from '../component/admin/AllStudent';
 import AllAdmin from '../component/admin/AllAdmin';
 import AdminProfile from '../component/admin/Profile';
+import AddTest from '../component/admin/AddTest';
+import AllTest from '../component/admin/AllTest';
+import EditTestPage from '../component/admin/EditTestPage';
 
 import StudentLogin from "../component/student/Login";
 import StudentDashbord from '../component/student/Dashbord';
@@ -24,6 +27,9 @@ function Routess() {
         <Route path='/all-student' element={<AllStudent />}/>
         <Route path='/all-admin' element={<AllAdmin />}/>
         <Route path='/admin-profile' element={<AdminProfile />}/>
+        <Route path='/add-test' element={<AddTest />}/>
+        <Route path='/all-tests' element={<AllTest />}/>
+        <Route path='/edit-test/:testId' element={<EditTestPage />}/>
         
         <Route path='/login' element={<StudentLogin />}/>
         <Route path='/student-dashbord' element={<StudentDashbord />}/>

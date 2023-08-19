@@ -40,8 +40,8 @@ function Sidebarr() {
             <MenuItem component={<Link to="/add-student" />}> Add Student</MenuItem>
           </SubMenu>
           <SubMenu label="Test">
-            <MenuItem component={<Link to="#" />}> All Test</MenuItem>
-            <MenuItem component={<Link to="#" />}> Add New Test</MenuItem>
+            <MenuItem component={<Link to="/all-tests" />}> All Test</MenuItem>
+            <MenuItem component={<Link to="/add-test" />}> Add New Test</MenuItem>
           </SubMenu>
           <SubMenu label="Admin">
             <MenuItem component={<Link to="/all-admin" />}> All Admins</MenuItem>

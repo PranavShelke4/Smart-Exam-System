@@ -8,6 +8,7 @@ const AuthenticateAdmin = require("../middleware/adminAuth");
 require("../db/conn");
 const User = require("../model/userSchema");
 const Admin = require("../model/adminSchema");
+const Test = require("../model/testModel");
 
 router.get("/", (req, res) => {
   res.send("This is Home page by router");
@@ -209,7 +210,9 @@ router.delete("/delete-admin/:id", AuthenticateAdmin, async (req, res) => {
     }
 
     if (adminToDelete._id.equals(req.adminID)) {
-      return res.status(400).json({ message: "Cannot delete currently logged-in admin" });
+      return res
+        .status(400)
+        .json({ message: "Cannot delete currently logged-in admin" });
     }
 
     await adminToDelete.remove();
@@ -219,6 +222,76 @@ router.delete("/delete-admin/:id", AuthenticateAdmin, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+//Add Test
+router.post("/add-test", AuthenticateAdmin, async (req, res) => {
+  const { subjectName, subjectCode } = req.body;
+
+  try {
+    const newTest = new Test({
+      subjectName,
+      subjectCode,
+    });
+
+    await newTest.save();
+
+    res.status(200).json({ message: "Test added successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+// Get All Test
+router.get("/all-test", AuthenticateAdmin, async (req, res) => {
+  try {
+    const allTests = await Test.find();
+    res.status(200).json({ tests: allTests });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+
+//Delete The Test
+router.delete("/delete-test/:id", AuthenticateAdmin, async (req, res) => {
+  try {
+    const test = await Test.findById(req.params.id);
+    if (!test) {
+      return res.status(404).json({ message: "test not found" });
+    }
+
+    await test.remove();
+    res.status(200).json({ message: "test deleted" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+// Update questions, options, and correct answers for a test
+router.post("/update-test/:testId", async (req, res) => {
+  try {
+    const testId = req.params.testId;
+    const { questions } = req.body;
+
+    const updatedTest = await Test.findByIdAndUpdate(
+      testId,
+      { questions: questions },
+      { new: true }
+    );
+
+    res.status(200).json({ test: updatedTest });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+
 
 
 // Logout API
@@ -232,6 +305,5 @@ router.get("/logout", async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 });
-
 
 module.exports = router;
