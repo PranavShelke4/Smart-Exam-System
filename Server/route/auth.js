@@ -242,7 +242,6 @@ router.post("/add-test", AuthenticateAdmin, async (req, res) => {
   }
 });
 
-
 // Get All Test
 router.get("/all-test", AuthenticateAdmin, async (req, res) => {
   try {
@@ -253,7 +252,6 @@ router.get("/all-test", AuthenticateAdmin, async (req, res) => {
     res.status(500).json({ error: "Server Error" });
   }
 });
-
 
 //Delete The Test
 router.delete("/delete-test/:id", AuthenticateAdmin, async (req, res) => {
@@ -271,7 +269,6 @@ router.delete("/delete-test/:id", AuthenticateAdmin, async (req, res) => {
   }
 });
 
-
 // Update questions, options, and correct answers for a test
 router.post("/update-test/:testId", async (req, res) => {
   try {
@@ -280,7 +277,9 @@ router.post("/update-test/:testId", async (req, res) => {
 
     const updatedTest = await Test.findByIdAndUpdate(
       testId,
-      { questions: questions },
+      {
+        questions: questions,
+      },
       { new: true }
     );
 
@@ -291,8 +290,43 @@ router.post("/update-test/:testId", async (req, res) => {
   }
 });
 
+// Save all questions for a test
+router.post("/save-all-questions/:testId", async (req, res) => {
+  try {
+    const testId = req.params.testId;
+    const { questions } = req.body;
 
+    const updatedTest = await Test.findByIdAndUpdate(
+      testId,
+      {
+        questions: questions,
+      },
+      { new: true }
+    );
 
+    res.status(200).json({ test: updatedTest });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: "Server Error" });
+  }
+});
+
+// Fetch questions for a specific test
+router.get("/get-test/:testId", async (req, res) => {
+  const testId = req.params.testId;
+
+  try {
+    const test = await Test.findById(testId);
+    if (!test) {
+      return res.status(404).json({ message: "Test not found" });
+    }
+
+    res.status(200).json({ questions: test.questions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
 
 // Logout API
 router.get("/logout", async (req, res) => {
