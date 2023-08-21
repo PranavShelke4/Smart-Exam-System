@@ -15,6 +15,7 @@ import EditTestPage from '../component/admin/EditTestPage';
 
 import StudentLogin from "../component/student/Login";
 import StudentDashbord from '../component/student/Dashbord';
+import StudentTest from '../component/student/TestPage';
 
 function Routess() {
   return (
@@ -33,6 +34,7 @@ function Routess() {
         
         <Route path='/login' element={<StudentLogin />}/>
         <Route path='/student-dashbord' element={<StudentDashbord />}/>
+        <Route path='/start-test/:testId' element={<StudentTest />}/>
     </Routes>
   )
 }

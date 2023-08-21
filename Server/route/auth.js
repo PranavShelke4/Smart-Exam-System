@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcryptjs");
@@ -9,6 +10,7 @@ require("../db/conn");
 const User = require("../model/userSchema");
 const Admin = require("../model/adminSchema");
 const Test = require("../model/testModel");
+const TestSubmission = require("../model/testSubmissionModel");
 
 router.get("/", (req, res) => {
   res.send("This is Home page by router");
@@ -225,12 +227,24 @@ router.delete("/delete-admin/:id", AuthenticateAdmin, async (req, res) => {
 
 //Add Test
 router.post("/add-test", AuthenticateAdmin, async (req, res) => {
-  const { subjectName, subjectCode } = req.body;
+  const { subjectName, subjectCode, questions } = req.body;
+
+  if (!subjectName || !subjectCode || !questions) {
+    return res
+      .status(400)
+      .json({ error: "Please provide subject details and questions" });
+  }
 
   try {
+    const newQuestions = questions.map((question) => {
+      const uniqueQuestionId = new mongoose.Types.ObjectId(); // Generate a unique ID for each question
+      return { ...question, _id: uniqueQuestionId };
+    });
+
     const newTest = new Test({
       subjectName,
       subjectCode,
+      questions: newQuestions,
     });
 
     await newTest.save();
@@ -238,7 +252,7 @@ router.post("/add-test", AuthenticateAdmin, async (req, res) => {
     res.status(200).json({ message: "Test added successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -327,6 +341,50 @@ router.get("/get-test/:testId", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+// Fetch all tests with subject name, subject code, and test id
+router.get("/get-all-tests", async (req, res) => {
+  try {
+    const tests = await Test.find({}, "_id subjectName subjectCode"); // Include _id for test id
+    res.status(200).json(tests);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch tests" });
+  }
+});
+
+// Submit Test
+router.post("/submit-test", async (req, res) => {
+  try {
+    const { testId, studentId, studentName, subjectName, totalMarks } = req.body;
+
+    if (
+      !testId ||
+      !studentId ||
+      !studentName ||
+      !subjectName ||
+      totalMarks === undefined
+    ) {
+      return res.status(400).json({ error: "Incomplete data provided" });
+    }
+
+    const testSubmission = new TestSubmission({
+      testId,
+      studentId,
+      studentName,
+      subjectName,
+      totalMarks,
+    });
+
+    await testSubmission.save();
+
+    res.status(200).json({ message: "Test submitted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to submit test" });
+  }
+});
+
 
 // Logout API
 router.get("/logout", async (req, res) => {
