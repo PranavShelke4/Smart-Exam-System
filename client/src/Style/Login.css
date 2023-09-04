@@ -1,0 +1,59 @@
+.login-page {
+  background-image: url("../assets/img/blob-scene-haikei.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-box {
+  width: 70%;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  background-color: white;
+  padding: 0%;
+}
+
+.login-left-side {
+  width: 50%;
+  background-color: #e6f2fd;
+  padding: 3%;
+}
+
+.login-right-side {
+  width: 50%;
+  background-color: white;
+  padding: 3%;
+}
+
+.login-label {
+  color: rgb(12, 12, 57);
+}
+
+.login-input {
+  border-radius: 50px;
+  background-color: #eeeeee;
+}
+
+.login-btn {
+    background-color: #1e293b;
+    color: #fff;
+}
+
+.login-btn:hover {
+  background-color: #1e293b;
+  color: #fff;
+}
+
+@media (min-width: 768px) {
+  .login-btn {
+    font-size: 1.125rem;
+    padding: 1rem 2rem;
+  }
+}

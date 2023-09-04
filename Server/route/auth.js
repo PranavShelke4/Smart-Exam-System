@@ -356,23 +356,25 @@ router.get("/get-all-tests", async (req, res) => {
 // Submit Test
 router.post("/submit-test", async (req, res) => {
   try {
-    const { testId, studentId, studentName, subjectName, totalMarks } = req.body;
+    const { testId, studentId, studentName, totalMarks } = req.body;
 
-    if (
-      !testId ||
-      !studentId ||
-      !studentName ||
-      !subjectName ||
-      totalMarks === undefined
-    ) {
+    if (!testId || !studentId || !studentName || totalMarks === undefined) {
       return res.status(400).json({ error: "Incomplete data provided" });
     }
+
+    // Fetch the subject code associated with the testId
+    const test = await Test.findById(testId);
+    if (!test) {
+      return res.status(404).json({ error: "Test not found" });
+    }
+
+    const subjectCode = test.subjectCode; // Get the subjectCode from the test
 
     const testSubmission = new TestSubmission({
       testId,
       studentId,
       studentName,
-      subjectName,
+      subjectCode, // Store the subjectCode
       totalMarks,
     });
 
@@ -380,7 +382,7 @@ router.post("/submit-test", async (req, res) => {
 
     res.status(200).json({ message: "Test submitted successfully" });
   } catch (error) {
-    console.error(error);
+    console.error("Error while saving data:", error);
     res.status(500).json({ error: "Failed to submit test" });
   }
 });

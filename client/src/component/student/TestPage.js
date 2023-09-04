@@ -8,6 +8,7 @@ function TestPage() {
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [totalMarks, setTotalMarks] = useState(0);
+  const [subjectCode, setSubjectCode] = useState(""); // Add this line to your state initialization
 
   const callStudentDashboardPage = async () => {
     try {
@@ -45,6 +46,7 @@ function TestPage() {
       if (res.status === 200) {
         const data = await res.json();
         setQuestions(data.questions);
+        setSubjectCode(data.subjectCode); // Set the subjectCode from the response
         setSelectedAnswers({});
       } else {
         throw new Error("Failed to fetch questions");
@@ -74,19 +76,25 @@ function TestPage() {
 
       setTotalMarks(marks);
 
+      const requestBody = {
+        testId,
+        studentId: userData._id,
+        studentName: userData.name,
+        subjectCode: subjectCode, // Use the subjectCode set in the state
+        totalMarks: marks,
+      };
+
+      console.log("Request Body:", requestBody);
+
       const res = await fetch("/submit-test", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          testId,
-          studentId: userData._id,
-          studentName: userData.name,
-          subjectName: questions[0].subjectName, // Assuming subject name is same for all questions
-          totalMarks: marks,
-        }),
+        body: JSON.stringify(requestBody),
       });
+
+      console.log("Response Status:", res.status);
 
       if (res.status === 200) {
         // Successfully submitted and stored marks
@@ -101,8 +109,8 @@ function TestPage() {
 
   useEffect(() => {
     fetchQuestions();
-    callStudentDashboardPage();
-  }, []);
+    callStudentDashboardPage();  // eslint-disable-next-line 
+  }, []); 
 
   return (
     <div className="container mt-4">

@@ -13,7 +13,7 @@ const testSubmissionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  subjectName: {
+  subjectId: {
     type: String,
     required: true,
   },

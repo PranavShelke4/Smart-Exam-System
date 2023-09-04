@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../Navbar";
+import "../../Style/Login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -32,59 +32,61 @@ function Login() {
     } else {
       window.alert("Student Login Successfull");
       console.log("Login Successfull");
-
       navigate("/student-dashbord");
     }
   };
 
   return (
-    <div>
-      <Navbar />
-      <h1 className="text-center mt-4">Log in</h1>
+    <div className="login-page">
+      <div className="container login-box">
+        <div className="login-left-side">
+          <h1 className="text-center mt-4">Log in</h1>
+        </div>
+        <div className="login-right-side">
+          <form method="POST">
+            <div className="form-group">
+              <label className="login-label" htmlFor="exampleInputEmail1">
+                Email address
+              </label>
+              <input
+                type="email"
+                class="form-control login-input"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label className="login-label" htmlFor="exampleInputPassword1">
+                Password
+              </label>
+              <input
+                type="password"
+                class="form-control login-input"
+                id="exampleInputPassword1"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
 
-      <div className="container">
-        <form method="POST">
-          <div className="form-group">
-            <label htmlFor="exampleInputEmail1">Email address</label>
-            <input
-              type="email"
-              class="form-control"
-              id="exampleInputEmail1"
-              aria-describedby="emailHelp"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="exampleInputPassword1">Password</label>
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword1"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
+            <div className="text-center">
+              <Link to={"/admin-login"}>
+                <button type="submit" class="btn m-4">
+                  Admin Login
+                </button>
+              </Link>
 
-          <div className="text-center">
-            <button
-              onClick={loginUser}
-              type="submit"
-              class="btn btn-primary  m-4"
-            >
-              Login
-            </button>
-          </div>
-
-          <div className="text-center">
-            <Link to={"/admin-login"}>
-              <button type="submit"
-              class="btn btn-primary  m-4">Admin Login</button>
-            </Link>
-          </div>
-        </form>
+              <button
+                onClick={loginUser}
+                type="submit"
+                class="btn m-4 login-btn"
+              >
+                Login
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
