@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../../Style/Login.css";
+import imglogin from "../../assets/img/login.png"
 
 function Login() {
   const navigate = useNavigate();
@@ -39,10 +40,16 @@ function Login() {
   return (
     <div className="login-page">
       <div className="container login-box">
-        <div className="login-left-side">
-          <h1 className="text-center mt-4">Log in</h1>
+        <div className="text-center login-left-side">
+          <h2>Login To Student</h2>
+          <img className="login-img" src={imglogin} alt="login"/>
         </div>
         <div className="login-right-side">
+          <div className="exit-to-home">
+            <Link to={"/"}>
+              <h2>X</h2>
+            </Link>
+          </div>
           <form method="POST">
             <div className="form-group">
               <label className="login-label" htmlFor="exampleInputEmail1">
@@ -53,6 +60,7 @@ function Login() {
                 class="form-control login-input"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
+                placeholder="demo id :- pranavshelke4@gmail.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -65,27 +73,28 @@ function Login() {
                 type="password"
                 class="form-control login-input"
                 id="exampleInputPassword1"
+                placeholder="demo pass :- 1234"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
 
             <div className="text-center">
-              <Link to={"/admin-login"}>
-                <button type="submit" class="btn m-4">
-                  Admin Login
-                </button>
-              </Link>
-
-              <button
-                onClick={loginUser}
-                type="submit"
-                class="btn m-4 login-btn"
-              >
-                Login
+              <button onClick={loginUser} type="submit" class="btn button-57">
+                <span class="text">Login</span>
+                <span>All The Best For Exam !</span>
               </button>
             </div>
           </form>
+
+          <div className="text-center">
+            <Link to={"/admin-login"}>
+              <button type="submit" class="btn button-6">
+                Admin Login
+              </button>
+            </Link>
+            <p className="warning">*If you're not able to log in, please contact your admin.</p>
+          </div>
         </div>
       </div>
     </div>
