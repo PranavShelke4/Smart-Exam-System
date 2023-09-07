@@ -1,6 +1,20 @@
 import React from "react";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
+import "../../Style/Admin/Sidebar.css";
+
+import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
+import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
+import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
+import BubbleChartRoundedIcon from "@mui/icons-material/BubbleChartRounded";
+import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
+import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded";
+import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
+import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 function Sidebarr() {
   const handleLogout = async () => {
@@ -24,36 +38,65 @@ function Sidebarr() {
       console.log(err);
     }
   };
+
   return (
     <>
-      <Sidebar>
-        <h3 className="text-center pt-3 pb-3">Smart Exam</h3>
-        <Menu
-          transitionDuration={800}
-          renderExpandIcon={({ open }) => <span>{open ? "-" : "+"}</span>}
-        >
-          <MenuItem component={<Link to="/admin-dashbord" />}>
-            Dashbord
+      <Sidebar className="app">
+        <Menu>
+          <MenuItem
+            component={<Link to="/admin-dashbord" className="link" />}
+            className="menu1"
+          >
+            <h2>Smart Exam</h2>
           </MenuItem>
-          <SubMenu label="Student">
-            <MenuItem component={<Link to="/all-student" />}> All Students</MenuItem>
-            <MenuItem component={<Link to="/add-student" />}> Add Student</MenuItem>
+          <MenuItem
+            component={<Link to="/admin-dashbord" className="link" />}
+            icon={<GridViewRoundedIcon />}
+          >
+            Dashboard
+          </MenuItem>
+          <MenuItem icon={<ReceiptRoundedIcon />}> Invoices </MenuItem>
+          <SubMenu label="Student" icon={<BarChartRoundedIcon />}>
+            <MenuItem
+              component={<Link to="/all-student" />}
+              icon={<TimelineRoundedIcon />}
+            >
+              All Students
+            </MenuItem>
+            <MenuItem
+              component={<Link to="/add-student" />}
+              icon={<BubbleChartRoundedIcon />}
+            >
+              Add Student
+            </MenuItem>
           </SubMenu>
-          <SubMenu label="Test">
+          <SubMenu label="Test" icon={<WalletRoundedIcon />}>
             <MenuItem component={<Link to="/all-tests" />}> All Test</MenuItem>
-            <MenuItem component={<Link to="/add-test" />}> Add New Test</MenuItem>
+            <MenuItem component={<Link to="/add-test" />}>
+              Add New Test
+            </MenuItem>
           </SubMenu>
-          <SubMenu label="Admin">
-            <MenuItem component={<Link to="/all-admin" />}> All Admins</MenuItem>
+          <SubMenu label="Admin" icon={<SettingsApplicationsRoundedIcon />}>
+            <MenuItem component={<Link to="/all-admin" />}>
+              All Admins
+            </MenuItem>
             <MenuItem component={<Link to="/add-admin" />}> Add Admin</MenuItem>
           </SubMenu>
-          <MenuItem component={<Link to="/admin-profile" />}>
-            Profile
+          <MenuItem
+            component={<Link to="transactions" className="link" />}
+            icon={<MonetizationOnRoundedIcon />}
+          >
+            Transactions
           </MenuItem>
-          <MenuItem>
-            <button onClick={handleLogout} className="nav-link btn btn-link">
-              Logout
-            </button>
+          <SubMenu label="Settings" icon={<SettingsApplicationsRoundedIcon />}>
+            <MenuItem icon={<AccountCircleRoundedIcon />}> Account </MenuItem>
+            <MenuItem icon={<ShieldRoundedIcon />}> Privacy </MenuItem>
+            <MenuItem icon={<NotificationsRoundedIcon />}>
+              Notifications
+            </MenuItem>
+          </SubMenu>
+          <MenuItem icon={<LogoutRoundedIcon />} onClick={handleLogout}>
+            Logout
           </MenuItem>
         </Menu>
       </Sidebar>
