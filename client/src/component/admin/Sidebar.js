@@ -41,7 +41,14 @@ function Sidebarr() {
 
   return (
     <>
-      <Sidebar className="app">
+      <Sidebar
+        className="mainavbar"
+        backgroundColor="#020a25"
+        rootStyles={{
+          color: "white",
+          backgroundColor: "#020a25",
+        }}
+      >
         <Menu>
           <MenuItem
             component={<Link to="/admin-dashbord" className="link" />}
@@ -52,50 +59,58 @@ function Sidebarr() {
           <MenuItem
             component={<Link to="/admin-dashbord" className="link" />}
             icon={<GridViewRoundedIcon />}
+            className="menu"
           >
             Dashboard
           </MenuItem>
-          <MenuItem icon={<ReceiptRoundedIcon />}> Invoices </MenuItem>
-          <SubMenu label="Student" icon={<BarChartRoundedIcon />}>
+          <SubMenu className="menu" label="Student" icon={<BarChartRoundedIcon />}>
             <MenuItem
+              className="submenu"
               component={<Link to="/all-student" />}
               icon={<TimelineRoundedIcon />}
             >
               All Students
             </MenuItem>
             <MenuItem
+              className="submenu"
               component={<Link to="/add-student" />}
               icon={<BubbleChartRoundedIcon />}
             >
               Add Student
             </MenuItem>
           </SubMenu>
-          <SubMenu label="Test" icon={<WalletRoundedIcon />}>
-            <MenuItem component={<Link to="/all-tests" />}> All Test</MenuItem>
-            <MenuItem component={<Link to="/add-test" />}>
+          <SubMenu className="menu" label="Test" icon={<WalletRoundedIcon />}>
+            <MenuItem className="submenu" component={<Link to="/all-tests" />}>
+              {" "}
+              All Test
+            </MenuItem>
+            <MenuItem className="submenu" component={<Link to="/add-test" />}>
               Add New Test
             </MenuItem>
           </SubMenu>
-          <SubMenu label="Admin" icon={<SettingsApplicationsRoundedIcon />}>
-            <MenuItem component={<Link to="/all-admin" />}>
+          <SubMenu className="menu" label="Admin" icon={<SettingsApplicationsRoundedIcon />}>
+            <MenuItem className="submenu" component={<Link to="/all-admin" />}>
               All Admins
             </MenuItem>
-            <MenuItem component={<Link to="/add-admin" />}> Add Admin</MenuItem>
+            <MenuItem className="submenu" component={<Link to="/add-admin" />}>
+              {" "}
+              Add Admin
+            </MenuItem>
           </SubMenu>
-          <MenuItem
-            component={<Link to="transactions" className="link" />}
-            icon={<MonetizationOnRoundedIcon />}
-          >
-            Transactions
-          </MenuItem>
-          <SubMenu label="Settings" icon={<SettingsApplicationsRoundedIcon />}>
-            <MenuItem icon={<AccountCircleRoundedIcon />}> Account </MenuItem>
-            <MenuItem icon={<ShieldRoundedIcon />}> Privacy </MenuItem>
-            <MenuItem icon={<NotificationsRoundedIcon />}>
+          <SubMenu className="menu" label="Settings" icon={<SettingsApplicationsRoundedIcon />}>
+            <MenuItem className="submenu" icon={<AccountCircleRoundedIcon />}>
+              {" "}
+              Account{" "}
+            </MenuItem>
+            <MenuItem className="submenu" icon={<ShieldRoundedIcon />}>
+              {" "}
+              Privacy{" "}
+            </MenuItem>
+            <MenuItem className="submenu" icon={<NotificationsRoundedIcon />}>
               Notifications
             </MenuItem>
           </SubMenu>
-          <MenuItem icon={<LogoutRoundedIcon />} onClick={handleLogout}>
+          <MenuItem className="menu" icon={<LogoutRoundedIcon />} onClick={handleLogout}>
             Logout
           </MenuItem>
         </Menu>

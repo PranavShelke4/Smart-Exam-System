@@ -1,4 +1,27 @@
 .menu1 {
     margin-bottom: 40px;
     margin-top: 20px;
-}
+  }
+  
+  .submenu {
+    background-color: #051343 !important;
+    color: white;
+  }
+  
+  .submenu:hover {
+    color: black;
+  }
+  
+  .submenu:hover + .menu {
+    color: white !important;
+  }
+
+  .menu{
+    background-color: #020a25;
+  }
+  
+  .menu:hover {
+    background-color: #e9ebee !important;
+    color: black;
+  }
+  
