@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
-import Table from "react-bootstrap/Table";
+import "../../Style/Admin/AllStudent.css";
 
 function AllStudent() {
   const [students, setStudents] = useState([]);
@@ -54,16 +54,16 @@ function AllStudent() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
+    <div className="allstudent">
       <Sidebar />
-      <main style={{ padding: 10 }}>
-        <div className="container mt-4">
-          <h1>All Students</h1>
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <Table striped bordered hover>
-              <thead>
+      <main style={{ width: "100%" }}>
+        <h3 className="table-heading">All Students</h3>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="allStudentList">
+            <table className="table">
+              <thead className="allStudentThead">
                 <tr>
                   <th>Sr No</th>
                   <th>Name</th>
@@ -90,9 +90,9 @@ function AllStudent() {
                   </tr>
                 ))}
               </tbody>
-            </Table>
-          )}
-        </div>
+            </table>
+          </div>
+        )}
       </main>
     </div>
   );

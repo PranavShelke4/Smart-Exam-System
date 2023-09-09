@@ -1,0 +1,44 @@
+.allstudent {
+  display: flex;
+  height: 100vh;
+  min-height: 400px;
+  background-color: #f8f8f8;
+  padding: 0%;
+}
+
+.allStudentList {
+  border-radius: 5px;
+  background-color: white;
+  margin: 3%;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: large;
+}
+
+.table th {
+  background-color: #020a25;
+  font-weight: bold;
+  color: white;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table-heading {
+  color: #334260;
+  padding: 2%;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  background-color: #fcfcfc;
+}

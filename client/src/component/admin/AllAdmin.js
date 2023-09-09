@@ -61,45 +61,45 @@ function AllAdmin() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
+    <div className="allstudent">
       <Sidebar />
-      <main style={{ padding: 10 }}>
-        <div className="container mt-4">
-          <h1>All Admins</h1>
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Sr No</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone Number</th>
-                  <th>Action</th>
+      <main style={{ width: "100%" }}>
+        <h3 className="table-heading">All Admins</h3>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="allStudentList">
+          <table className="table">
+              <thead className="allStudentThead">
+              <tr>
+                <th>Sr No</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {admins.map((admin, index) => (
+                <tr key={admin._id}>
+                  <td>{index + 1}</td>
+                  <td>{admin.name}</td>
+                  <td>{admin.email}</td>
+                  <td>{admin.number}</td>
+                  <td>
+                    <button
+                      onClick={() => handleDelete(admin._id)}
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {admins.map((admin, index) => (
-                  <tr key={admin._id}>
-                    <td>{index + 1}</td>
-                    <td>{admin.name}</td>
-                    <td>{admin.email}</td>
-                    <td>{admin.number}</td>
-                    <td>
-                      <button
-                        onClick={() => handleDelete(admin._id)}
-                        className="btn btn-danger"
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          )}
-        </div>
+              ))}
+            </tbody>
+          </table>
+          </div>
+        )}
       </main>
     </div>
   );

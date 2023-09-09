@@ -4,17 +4,22 @@ import { Link } from "react-router-dom";
 import "../../Style/Admin/Sidebar.css";
 
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
-import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
 import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
 import BubbleChartRoundedIcon from "@mui/icons-material/BubbleChartRounded";
 import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
-import MonetizationOnRoundedIcon from "@mui/icons-material/MonetizationOnRounded";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import ShieldRoundedIcon from "@mui/icons-material/ShieldRounded";
-import NotificationsRoundedIcon from "@mui/icons-material/NotificationsRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import QuizIcon from '@mui/icons-material/Quiz';
+import NoteAddIcon from '@mui/icons-material/NoteAdd';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 
 function Sidebarr() {
   const handleLogout = async () => {
@@ -47,6 +52,7 @@ function Sidebarr() {
         rootStyles={{
           color: "white",
           backgroundColor: "#020a25",
+
         }}
       >
         <Menu>
@@ -63,54 +69,63 @@ function Sidebarr() {
           >
             Dashboard
           </MenuItem>
-          <SubMenu className="menu" label="Student" icon={<BarChartRoundedIcon />}>
+          <SubMenu
+            className="menu"
+            label="Student"
+            icon={<SupervisedUserCircleIcon />}
+          >
             <MenuItem
               className="submenu"
               component={<Link to="/all-student" />}
-              icon={<TimelineRoundedIcon />}
+              icon={<PeopleAltIcon />}
             >
               All Students
             </MenuItem>
             <MenuItem
               className="submenu"
               component={<Link to="/add-student" />}
-              icon={<BubbleChartRoundedIcon />}
+              icon={<GroupAddIcon />}
             >
               Add Student
             </MenuItem>
           </SubMenu>
           <SubMenu className="menu" label="Test" icon={<WalletRoundedIcon />}>
-            <MenuItem className="submenu" component={<Link to="/all-tests" />}>
-              {" "}
+            <MenuItem className="submenu" icon={<QuizIcon />} component={<Link to="/all-tests" />}>
               All Test
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/add-test" />}>
+            <MenuItem className="submenu" icon={<NoteAddIcon />} component={<Link to="/add-test" />}>
               Add New Test
             </MenuItem>
           </SubMenu>
-          <SubMenu className="menu" label="Admin" icon={<SettingsApplicationsRoundedIcon />}>
-            <MenuItem className="submenu" component={<Link to="/all-admin" />}>
+          <SubMenu
+            className="menu"
+            label="Admin"
+            icon={<AdminPanelSettingsIcon />}
+          >
+            <MenuItem className="submenu" icon={<AccountBoxIcon />} component={<Link to="/all-admin" />}>
               All Admins
             </MenuItem>
-            <MenuItem className="submenu" component={<Link to="/add-admin" />}>
-              {" "}
+            <MenuItem className="submenu" icon={<PersonAddIcon />} component={<Link to="/add-admin" />}>
               Add Admin
             </MenuItem>
           </SubMenu>
-          <SubMenu className="menu" label="Settings" icon={<SettingsApplicationsRoundedIcon />}>
+          <SubMenu
+            className="menu"
+            label="Settings"
+            icon={<SettingsApplicationsRoundedIcon />}
+          >
             <MenuItem className="submenu" icon={<AccountCircleRoundedIcon />}>
-              {" "}
-              Account{" "}
+              Account
             </MenuItem>
             <MenuItem className="submenu" icon={<ShieldRoundedIcon />}>
-              {" "}
-              Privacy{" "}
-            </MenuItem>
-            <MenuItem className="submenu" icon={<NotificationsRoundedIcon />}>
-              Notifications
+              Privacy
             </MenuItem>
           </SubMenu>
-          <MenuItem className="menu" icon={<LogoutRoundedIcon />} onClick={handleLogout}>
+          <MenuItem
+            className="menu"
+            icon={<LogoutRoundedIcon />}
+            onClick={handleLogout}
+          >
             Logout
           </MenuItem>
         </Menu>
