@@ -159,7 +159,6 @@ function Signup() {
             fullWidth
             margin="normal"
             className="add-student-btn"
-
           >
             Add Admin
           </Button>
