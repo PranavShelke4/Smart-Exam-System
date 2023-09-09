@@ -1,0 +1,30 @@
+.containers {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main {
+  flex: 1;
+  padding: 10px;
+  width: 100%;
+  overflow-y: auto;
+}
+
+.paper {
+  padding: 20px;
+}
+
+.title {
+  text-align: center;
+}
+
+.subtitle {
+  margin-top: 20px;
+}
+
+.buttons {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}

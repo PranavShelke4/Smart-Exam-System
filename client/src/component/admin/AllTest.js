@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 
 function AllTest() {
@@ -59,49 +58,50 @@ function AllTest() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
+    <div className="allstudent">
       <Sidebar />
-      <main style={{ padding: 10 }}>
-        <div className="container mt-4">
-          <h1>All Tests</h1>
-          {isLoading ? (
-            <p>Loading...</p>
-          ) : (
-            <Table striped bordered hover>
-              <thead>
-                <tr>
-                  <th>Sr No</th>
-                  <th>Subject Name</th>
-                  <th>Subject Code</th>
-                  <th>Action</th>
+      <main style={{ width: "100%" }}>
+        <h3 className="table-heading">All Tests</h3>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <div className="allStudentList">
+         <table className="table">
+              <thead className="allStudentThead">
+              <tr>
+                <th>Sr No</th>
+                <th>Subject Name</th>
+                <th>Subject Code</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tests.map((test, index) => (
+                <tr key={test._id}>
+                  <td>{index + 1}</td>
+                  <td>{test.subjectName}</td>
+                  <td>{test.subjectCode}</td>
+                  <td>
+                    <button
+                      onClick={() => handleDelete(test._id)}
+                      className="btn btn-danger"
+                    >
+                      Delete
+                    </button>
+                    <Link
+                      to={`/edit-test/${test._id}`}
+                      className="btn"
+                      style={{backgroundColor: "#020a25", color: "white", margin: "0% 5%"}}
+                    >
+                      Edit
+                    </Link>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {tests.map((test, index) => (
-                  <tr key={test._id}>
-                    <td>{index + 1}</td>
-                    <td>{test.subjectName}</td>
-                    <td>{test.subjectCode}</td>
-                    <td>
-                      <button
-                        onClick={() => handleDelete(test._id)}
-                        className="btn btn-danger"
-                      >
-                        Delete
-                      </button>
-                      <Link
-                        to={`/edit-test/${test._id}`}
-                        className="btn btn-primary"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          )}
-        </div>
+              ))}
+            </tbody>
+          </table>
+          </div>
+        )}
       </main>
     </div>
   );

@@ -107,6 +107,7 @@ function AddStudent() {
             onChange={handleInputs}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Student Email address"
@@ -117,6 +118,7 @@ function AddStudent() {
             onChange={handleInputs}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Phone No."
@@ -127,6 +129,7 @@ function AddStudent() {
             onChange={handleInputs}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Password"
@@ -138,6 +141,7 @@ function AddStudent() {
             onChange={handleInputs}
             fullWidth
             margin="normal"
+            required
           />
           <TextField
             label="Confirm Password"
@@ -149,6 +153,7 @@ function AddStudent() {
             onChange={handleInputs}
             fullWidth
             margin="normal"
+            required
           />
           <Button
             variant="contained"

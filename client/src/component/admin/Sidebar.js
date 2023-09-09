@@ -52,7 +52,7 @@ function Sidebarr() {
         rootStyles={{
           color: "white",
           backgroundColor: "#020a25",
-
+          height: "100%"
         }}
       >
         <Menu>
@@ -114,7 +114,7 @@ function Sidebarr() {
             label="Settings"
             icon={<SettingsApplicationsRoundedIcon />}
           >
-            <MenuItem className="submenu" icon={<AccountCircleRoundedIcon />}>
+            <MenuItem component={<Link to="/admin-profile" />} className="submenu" icon={<AccountCircleRoundedIcon />}>
               Account
             </MenuItem>
             <MenuItem className="submenu" icon={<ShieldRoundedIcon />}>

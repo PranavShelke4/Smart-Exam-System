@@ -1,8 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import Sidebar from "./Sidebar";
+import {
+  TextField,
+  Button,
+  FormControl,
+  Select,
+  MenuItem,
+  InputLabel,
+  Typography,
+  Paper,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  IconButton,
+  Grid,
+  Container,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import "../../Style/Admin/EditTestPage.css";
 
 function EditTestPage() {
   const { testId } = useParams();
@@ -106,91 +124,147 @@ function EditTestPage() {
   };
 
   return (
-    <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
+    <div className="containers">
       <Sidebar />
-      <main style={{ padding: 10 }}>
-        <div className="container mt-5">
-          <h2>Edit Test</h2>
-          <div>
+      <main className="main">
+        <Container maxWidth="lg" className="main-container">
+          <Paper elevation={3} style={{ padding: "20px" }}>
+            <Typography variant="h5" align="center">
+              Edit Test
+            </Typography>
             <div>
-              <h4>Preview and Edit Questions:</h4>
-              <ul>
+              <Typography variant="h6">Preview and Edit Questions:</Typography>
+              <List>
                 {questions.map((q, index) => (
-                  <li key={index}>
-                    <p>Question: {q.question}</p>
-                    <p>Options: {q.options.join(", ")}</p>
-                    <p>Correct Answer: {q.correctAnswer}</p>
-                    <Button
-                      variant="outline-primary"
-                      onClick={() => handleEditQuestion(index)}
-                    >
-                      Edit
-                    </Button>{" "}
-                    <Button
-                      variant="outline-danger"
-                      onClick={() => handleDeleteQuestion(index)}
-                    >
-                      Delete
-                    </Button>
-                  </li>
+                  <ListItem key={index} alignItems="flex-start">
+                    <ListItemText
+                      primary={`Question: ${q.question}`}
+                      secondary={
+                        <div>
+                          <span>Options: {q.options.join(", ")}</span>
+                          <div style={{ marginTop: "10px" }}>
+                            Correct Answer: <b>{q.correctAnswer}</b>
+                          </div>
+                        </div>
+                      }
+                    />
+                    <Grid container justifyContent="flex-end">
+                      <IconButton
+                        color="primary"
+                        onClick={() => handleEditQuestion(index)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        color="secondary"
+                        onClick={() => handleDeleteQuestion(index)}
+                      >
+                        <DeleteForeverIcon />
+                      </IconButton>
+                    </Grid>
+                  </ListItem>
                 ))}
-              </ul>
+              </List>
             </div>
-            <Form>
-              <Form.Group>
-                <Form.Label>Question:</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={currentQuestion}
-                  onChange={(e) => setCurrentQuestion(e.target.value)}
-                />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Options (Max 4):</Form.Label>
+            <form>
+              <TextField
+                label="Question"
+                variant="outlined"
+                fullWidth
+                value={currentQuestion}
+                onChange={(e) => setCurrentQuestion(e.target.value)}
+                style={{ marginBottom: "10px" }}
+              />
+              <div>
+                <Typography variant="subtitle1">Options (Max 4):</Typography>
                 {options.map((option, index) => (
-                  <div key={index}>
-                    <Form.Control type="text" value={option} readOnly />
-                    <Button
-                      variant="outline-success"
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      marginBottom: "10px",
+                    }}
+                  >
+                    <TextField
+                      type="text"
+                      value={option}
+                      variant="outlined"
+                      fullWidth
+                      InputProps={{ readOnly: true }}
+                    />
+                    <IconButton
+                      color="primary"
                       onClick={() => handleUpdateCorrectAnswer(option)}
+                      style={{ marginLeft: "10px" }}
                     >
                       Set Correct
-                    </Button>
+                    </IconButton>
                   </div>
                 ))}
-                <Form.Control
+                <TextField
                   type="text"
                   value={currentOption}
+                  variant="outlined"
+                  fullWidth
                   onChange={(e) => setCurrentOption(e.target.value)}
                 />
                 <Button
-                  variant="outline-primary"
+                  variant="contained"
+                  color="primary"
                   onClick={handleAddOption}
                   disabled={options.length >= 4}
+                  style={{ marginTop: "10px" }}
                 >
                   Add Option
                 </Button>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label>Correct Answer:</Form.Label>
-                <Form.Control type="text" value={correctAnswer} readOnly />
-              </Form.Group>
-              <Button variant="primary" onClick={handleAddQuestion}>
+              </div>
+              <FormControl
+                variant="outlined"
+                fullWidth
+                style={{ marginTop: "10px" }}
+              >
+                <InputLabel>Correct Answer</InputLabel>
+                <Select
+                  value={correctAnswer}
+                  onChange={(e) => setCorrectAnswer(e.target.value)}
+                  label="Correct Answer"
+                >
+                  {options.map((option, index) => (
+                    <MenuItem key={index} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleAddQuestion}
+                style={{ marginTop: "10px" }}
+              >
                 Add Question
               </Button>{" "}
-              <Button variant="success" onClick={handleSaveAllQuestions}>
+              <Button
+                variant="contained"
+                color="success"
+                onClick={handleSaveAllQuestions}
+                style={{ marginTop: "10px" }}
+              >
                 Save All Questions
               </Button>{" "}
               <Button
-                variant="info"
+                variant="contained"
+                color="info"
                 onClick={handleUpdateQuestion}
                 disabled={editingQuestionIndex === null}
+                style={{ marginTop: "10px" }}
               >
                 Update
               </Button>{" "}
-            </Form>
-          </div>
-        </div>
+            </form>
+          </Paper>
+        </Container>
       </main>
     </div>
   );

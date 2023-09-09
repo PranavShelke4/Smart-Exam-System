@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import Sidebar from "./Sidebar";
 
 function AddTest() {
@@ -67,36 +69,38 @@ function AddTest() {
 
   return (
     <>
-      <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
+      <div className="add-student-container">
         <Sidebar />
-        <main style={{ padding: 10 }}>
-          <h1>Add Test</h1>
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="subjectName">Subject Name</label>
-              <input
-                type="text"
-                id="subjectName"
-                name="subjectName"
-                value={subjectName}
-                onChange={(e) => setSubjectName(e.target.value)}
-                className="form-control"
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="subjectCode">Subject Code</label>
-              <input
-                type="text"
-                id="subjectCode"
-                name="subjectCode"
-                value={subjectCode}
-                onChange={(e) => setSubjectCode(e.target.value)}
-                className="form-control"
-              />
-            </div>
-            <button type="submit" className="btn btn-primary">
+        <main style={{ width: "100%" }}>
+          <h3 className="table-heading">Add Test</h3>
+          <form className="add-student-form" onSubmit={handleSubmit}>
+            <TextField
+              label="Subject Name"
+              type="text"
+              id="subjectName"
+              name="subjectName"
+              value={subjectName}
+              onChange={(e) => setSubjectName(e.target.value)}
+              className="form-control"
+              margin="normal"
+              required
+            />
+
+            <TextField
+              label="Subject Code"
+              type="text"
+              id="subjectCode"
+              name="subjectCode"
+              value={subjectCode}
+              onChange={(e) => setSubjectCode(e.target.value)}
+              className="form-control"
+              margin="normal"
+              required
+            />
+
+            <Button fullWidth style={{color: "white"}} className="add-student-btn" type="submit">
               Add Test
-            </button>
+            </Button>
           </form>
         </main>
       </div>

@@ -105,7 +105,7 @@ function Signup() {
             margin="normal"
             value={user.name}
             onChange={handleInputs}
-            
+            required
           />
 
           <TextField
@@ -117,6 +117,7 @@ function Signup() {
             value={user.email}
             onChange={handleInputs}
             label="Admin Email address"
+            required
           />
 
           <TextField
@@ -128,6 +129,7 @@ function Signup() {
             value={user.number}
             onChange={handleInputs}
             label="Phone No."
+            required
           />
 
           <TextField
@@ -139,6 +141,7 @@ function Signup() {
             value={user.password}
             onChange={handleInputs}
             label="Password"
+            required
           />
 
           <TextField
@@ -150,6 +153,7 @@ function Signup() {
             value={user.cpassword}
             onChange={handleInputs}
             label="Confirm Password"
+            required
           />
 
           <Button
