@@ -1,6 +1,8 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 function Signup() {
   const navigate = useNavigate();
@@ -81,99 +83,89 @@ function Signup() {
       window.alert("Invalid Registration");
       console.log("Invalid Registration");
     } else {
-      window.alert("Admin Registration Successfull");
-      console.log("Registration Successfull");
+      window.alert("Admin Registration Successful");
+      console.log("Registration Successful");
 
       navigate("/all-admin");
     }
   };
 
   return (
-    <>
-      <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
-        <Sidebar />
-        <main style={{ padding: 10 }}>
-          <h1 className="text-center mt-4">Add Admin</h1>
+    <div className="add-student-container">
+      <Sidebar />
+      <main style={{ width: "100%" }}>
+        <h3 className="table-heading">Add Admin</h3>
+        <form className="add-student-form" method="POST">
+          <TextField
+          label="Admin Name"
+            type="text"
+            name="name"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={user.name}
+            onChange={handleInputs}
+            
+          />
 
-          <div className="container">
-            <form method="POST">
-              <div className="form-group">
-                <label htmlFor="exampleInputName">Admin Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  className="form-control"
-                  id="exampleInputName"
-                  value={user.name}
-                  onChange={handleInputs}
-                  placeholder="Admin Name"
-                />
-              </div>
+          <TextField
+            type="email"
+            name="email"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={user.email}
+            onChange={handleInputs}
+            label="Admin Email address"
+          />
 
-              <div className="form-group">
-                <label htmlFor="exampleInputEmail1">Admin Email address</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  value={user.email}
-                  onChange={handleInputs}
-                  placeholder="Enter email"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputPhone">Phone No.</label>
-                <input
-                  type="number"
-                  name="number"
-                  className="form-control"
-                  id="exampleInputPhone"
-                  value={user.number}
-                  onChange={handleInputs}
-                  placeholder="phone"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputPassword">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  id="exampleInputPassword"
-                  value={user.password}
-                  onChange={handleInputs}
-                  placeholder="Password"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputCPassword">Confirm Password</label>
-                <input
-                  type="password"
-                  name="cpassword"
-                  className="form-control"
-                  id="exampleInputCPassword"
-                  value={user.cpassword}
-                  onChange={handleInputs}
-                  placeholder="Password"
-                />
-              </div>
+          <TextField
+            type="number"
+            name="number"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={user.number}
+            onChange={handleInputs}
+            label="Phone No."
+          />
 
-              <div className="text-center">
-                <button
-                  type="submit"
-                  onClick={postData}
-                  className="btn btn-primary  m-4"
-                >
-                  Add Admin 
-                </button>
-              </div>
-            </form>
-          </div>
-        </main>
-      </div>
-    </>
+          <TextField
+            type="password"
+            name="password"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={user.password}
+            onChange={handleInputs}
+            label="Password"
+          />
+
+          <TextField
+            type="password"
+            name="cpassword"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            value={user.cpassword}
+            onChange={handleInputs}
+            label="Confirm Password"
+          />
+
+          <Button
+            type="submit"
+            onClick={postData}
+            variant="contained"
+            fullWidth
+            margin="normal"
+            className="add-student-btn"
+
+          >
+            Add Admin
+          </Button>
+        </form>
+      </main>
+    </div>
   );
 }
 

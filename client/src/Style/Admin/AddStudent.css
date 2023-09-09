@@ -1,0 +1,32 @@
+.add-student-container {
+    display: flex;
+    height: 100vh;
+    min-height: 400px;
+    background-color: #f8f8f8;
+    padding: 0%;
+  }
+  
+  .add-student-main {
+    flex-grow: 1;
+  }
+
+  .add-student-form{
+    padding: 1% 5%;
+  }
+
+  .add-student-heading {
+    text-align: center;
+    margin-top: 20px;
+    color: #334260;
+    font-size: 24px;
+  }
+  
+  .add-student-btn {
+    margin-top: 2rem !important;
+    background-color: #020a25 !important;
+    height: 3rem !important;
+  }
+  
+  .add-student-btn:hover{
+    background-color: #1a253a !important;
+  }

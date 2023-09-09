@@ -1,6 +1,9 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import "../../Style/Admin/AddStudent.css";
 
 function AddStudent() {
   const navigate = useNavigate();
@@ -17,7 +20,7 @@ function AddStudent() {
 
   let name, value;
 
-  const callAdminDashbordPage = async () => {
+  const callAdminDashboardPage = async () => {
     try {
       const res = await fetch("/admin-dashbord", {
         method: "GET",
@@ -45,7 +48,7 @@ function AddStudent() {
   };
 
   useEffect(() => {
-    callAdminDashbordPage();
+    callAdminDashboardPage();
   }, []);
 
   const handleInputs = (e) => {
@@ -82,100 +85,83 @@ function AddStudent() {
       window.alert("Invalid Registration");
       console.log("Invalid Registration");
     } else {
-      window.alert("Registration Successfull");
-      console.log("Registration Successfull");
+      window.alert("Registration Successful");
+      console.log("Registration Successful");
 
       navigate("/all-student");
     }
   };
 
   return (
-    <>
-      <div style={{ display: "flex", height: "100vh", minHeight: "400px" }}>
-        <Sidebar />
-        <main style={{ padding: 10 }}>
-          <h1 className="text-center mt-4">Add Student</h1>
-
-          <div className="container">
-            <form method="POST">
-              <div className="form-group">
-                <label htmlFor="exampleInputName">Student Name</label>
-                <input
-                  type="text"
-                  name="name"
-                  className="form-control"
-                  id="exampleInputName"
-                  value={user.name}
-                  onChange={handleInputs}
-                  placeholder="Student Name"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="exampleInputEmail1">Student Email address</label>
-                <input
-                  type="email"
-                  name="email"
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  aria-describedby="emailHelp"
-                  value={user.email}
-                  onChange={handleInputs}
-                  placeholder="Enter email"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputPhone">Phone No.</label>
-                <input
-                  type="number"
-                  name="number"
-                  className="form-control"
-                  id="exampleInputPhone"
-                  value={user.number}
-                  onChange={handleInputs}
-                  placeholder="phone"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="exampleInputPassword">Password</label>
-                <input
-                  type="password"
-                  className="form-control"
-                  name="password"
-                  id="exampleInputPassword"
-                  value={user.password}
-                  onChange={handleInputs}
-                  placeholder="Password"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleInputCPassword">Confirm Password</label>
-                <input
-                  type="password"
-                  name="cpassword"
-                  className="form-control"
-                  id="exampleInputCPassword"
-                  value={user.cpassword}
-                  onChange={handleInputs}
-                  placeholder="Password"
-                />
-              </div>
-
-              <div className="text-center">
-                <button
-                  type="submit"
-                  onClick={postData}
-                  className="btn btn-primary  m-4"
-                >
-                  Add Student
-                </button>
-              </div>
-            </form>
-          </div>
-        </main>
-      </div>
-    </>
+    <div className="add-student-container">
+      <Sidebar />
+      <main style={{ width: "100%" }}>
+        <h3 className="table-heading">Add Student</h3>
+        <form className="add-student-form" method="POST">
+          <TextField
+            label="Student Name"
+            variant="outlined"
+            className="TextField"
+            name="name"
+            value={user.name}
+            onChange={handleInputs}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Student Email address"
+            variant="outlined"
+            className="TextField"
+            name="email"
+            value={user.email}
+            onChange={handleInputs}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Phone No."
+            variant="outlined"
+            className="TextField"
+            name="number"
+            value={user.number}
+            onChange={handleInputs}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Password"
+            variant="outlined"
+            className="TextField"
+            type="password"
+            name="password"
+            value={user.password}
+            onChange={handleInputs}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            label="Confirm Password"
+            variant="outlined"
+            className="TextField"
+            type="password"
+            name="cpassword"
+            value={user.cpassword}
+            onChange={handleInputs}
+            fullWidth
+            margin="normal"
+          />
+          <Button
+            variant="contained"
+            onClick={postData}
+            fullWidth
+            className="add-student-btn"
+            type="submit"
+          >
+            Add Student
+          </Button>
+        </form>
+      </main>
+    </div>
   );
 }
 
