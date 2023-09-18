@@ -4,9 +4,6 @@ import { Link } from "react-router-dom";
 import "../../Style/Admin/Sidebar.css";
 
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
-import BarChartRoundedIcon from "@mui/icons-material/BarChartRounded";
-import TimelineRoundedIcon from "@mui/icons-material/TimelineRounded";
-import BubbleChartRoundedIcon from "@mui/icons-material/BubbleChartRounded";
 import WalletRoundedIcon from "@mui/icons-material/WalletRounded";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";

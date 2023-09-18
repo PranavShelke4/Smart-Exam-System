@@ -1,1 +1,0 @@
-# Smart-Exam-System
