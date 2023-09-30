@@ -91,10 +91,13 @@ function TestPage() {
       // Increment the count when the student exits fullscreen mode
       setExitFullscreenCount((prevCount) => prevCount + 1);
 
-      // Show a popup alert
-      window.confirm("Dont exit fullscreen mode!. Now you will be logged out of the test. Please login again to continue.");
+      const confirmed = window.confirm("Don't exit fullscreen mode!");
 
-      if (exitFullscreenCount >= 0) {
+      if (confirmed) {
+        enterFullscreen(); 
+      } 
+    
+      if (exitFullscreenCount >= 3) {
         handleLogout();
       }
     }
@@ -144,6 +147,8 @@ function TestPage() {
 
       if (res.status === 200) {
         console.log("Test submitted successfully");
+        alert("Test submitted successfully");
+        navigate("/student-dashbord");
       } else {
         throw new Error("Failed to submit test");
       }
