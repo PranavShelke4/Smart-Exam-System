@@ -88,11 +88,11 @@ function TestPage() {
 
   const handleFullscreenChange = () => {
     if (!document.fullscreenElement) {
-      // Student exited fullscreen mode
+      // Increment the count when the student exits fullscreen mode
       setExitFullscreenCount((prevCount) => prevCount + 1);
 
       // Show a popup alert
-      window.confirm("You exited fullscreen mode. Click OK to re-enter fullscreen mode.");
+      window.confirm("Dont exit fullscreen mode!. Now you will be logged out of the test. Please login again to continue.");
 
       if (exitFullscreenCount >= 0) {
         handleLogout();
