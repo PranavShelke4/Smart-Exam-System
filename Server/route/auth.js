@@ -362,19 +362,10 @@ router.post("/submit-test", async (req, res) => {
       return res.status(400).json({ error: "Incomplete data provided" });
     }
 
-    // Fetch the subject code associated with the testId
-    const test = await Test.findById(testId);
-    if (!test) {
-      return res.status(404).json({ error: "Test not found" });
-    }
-
-    const subjectCode = test.subjectCode; // Get the subjectCode from the test
-
     const testSubmission = new TestSubmission({
       testId,
       studentId,
       studentName,
-      subjectCode, // Store the subjectCode
       totalMarks,
     });
 
@@ -387,12 +378,11 @@ router.post("/submit-test", async (req, res) => {
   }
 });
 
-
 // Logout API
 router.get("/logout", async (req, res) => {
   try {
-    res.clearCookie("jwtokan", { path: "/" }); // Clear the jwtokan cookie
-    res.clearCookie("adminToken", { path: "/" }); // Clear the adminToken cookie
+    res.clearCookie("jwtokan", { path: "/" });
+    res.clearCookie("adminToken", { path: "/" });
     res.status(200).send("User Logout");
   } catch (err) {
     console.log(err);

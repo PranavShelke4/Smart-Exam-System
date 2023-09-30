@@ -13,10 +13,6 @@ const testSubmissionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  subjectId: {
-    type: String,
-    required: true,
-  },
   totalMarks: {
     type: Number,
     required: true,
