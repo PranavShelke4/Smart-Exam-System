@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@mui/icons-material": "^5.14.11",
-    "@mui/material": "^5.14.11"
+    "react-webcam": "^7.1.1"
   }
 }
