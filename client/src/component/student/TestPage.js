@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Button, Container, Typography } from "@mui/material";
+import "../../Style/Student/ExamPage.css";
 
 function TestPage() {
   const [userData, setUserData] = useState({});
-  const { testId } = useParams(); 
+  const { testId } = useParams();
   const navigate = useNavigate();
   const [questions, setQuestions] = useState([]);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [totalMarks, setTotalMarks] = useState(0);
-
-  // Track the number of times the student exits fullscreen mode
   const [exitFullscreenCount, setExitFullscreenCount] = useState(0);
+  const [showWarning, setShowWarning] = useState(false);
 
   const callStudentDashboardPage = async () => {
     try {
@@ -77,6 +78,7 @@ function TestPage() {
 
       if (res.status === 200) {
         window.location.href = "/login";
+        window.location.reload();
       } else {
         const error = new Error("Failed to logout");
         throw error;
@@ -88,20 +90,20 @@ function TestPage() {
 
   const handleFullscreenChange = () => {
     if (!document.fullscreenElement) {
-      // Increment the count when the student exits fullscreen mode
       setExitFullscreenCount((prevCount) => prevCount + 1);
-
-      const confirmed = window.confirm("Don't exit fullscreen mode!");
-
-      if (confirmed) {
-        enterFullscreen(); 
-      } 
-    
-      if (exitFullscreenCount >= 3) {
-        handleLogout();
-      }
+      setShowWarning(true);
+    }
+    if(exitFullscreenCount >= 5){
+      handleLogout();
     }
   };
+
+  useEffect(() => {
+    if (exitFullscreenCount >= 5) {
+      handleLogout();
+    }
+  }, [exitFullscreenCount]);
+  
 
   const enterFullscreen = () => {
     const element = document.documentElement;
@@ -157,21 +159,21 @@ function TestPage() {
     }
   };
 
+  const handleReenterFullscreen = () => {
+    enterFullscreen();
+    setShowWarning(false);
+  };
+
   useEffect(() => {
     fetchQuestions();
     callStudentDashboardPage();
-
-    // Add a fullscreen change event listener
     document.addEventListener("fullscreenchange", handleFullscreenChange);
-
-    // Cleanup the event listener when the component unmounts
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
     };
   }, []);
 
   useEffect(() => {
-    // Automatically enter fullscreen mode when the component loads
     enterFullscreen();
   }, []);
 
@@ -207,6 +209,17 @@ function TestPage() {
       </button>
 
       <p>Total Marks: {totalMarks}</p>
+
+      {/* Warning div for exiting fullscreen */}
+      {showWarning && (
+        <div className="fullscreen-warning">
+          <p>Warning: You've exited fullscreen mode {exitFullscreenCount} time</p>
+          <p>If You Exit More thene 5  time you will automticly logout</p>
+          <button className="btn btn-primary" onClick={handleReenterFullscreen}>
+            Re-enter Fullscreen
+          </button>
+        </div>
+      )}
     </div>
   );
 }
