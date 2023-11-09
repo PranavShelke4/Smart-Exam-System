@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Button, Container, Typography } from "@mui/material";
+import FaceDetection from "./FaseDetection";
 import "../../Style/Student/ExamPage.css";
 
 function TestPage() {
@@ -94,7 +94,8 @@ function TestPage() {
       setShowWarning(true);
     }
     if(exitFullscreenCount >= 5){
-      handleLogout();
+      // handleLogout();
+      handleSubmit();
     }
   };
 
@@ -133,7 +134,7 @@ function TestPage() {
       setTotalMarks(marks);
 
       const requestBody = {
-        testId: testId, // Ensure testId is correctly provided
+        testId: testId, 
         studentId: userData._id,
         studentName: userData.name,
         totalMarks: marks,
@@ -182,6 +183,7 @@ function TestPage() {
       <h2 className="mb-4">Test Page</h2>
       <h1>Student Test Page</h1>
       <p>Test ID: {testId}</p>
+      <FaceDetection />
 
       {questions.map((question) => (
         <div key={question._id} className="mb-4">
@@ -214,7 +216,7 @@ function TestPage() {
       {showWarning && (
         <div className="fullscreen-warning">
           <p>Warning: You've exited fullscreen mode {exitFullscreenCount} time</p>
-          <p>If You Exit More thene 5  time you will automticly logout</p>
+          <p>If You Exit More thene 5 time your exam will be submit automaticly</p>
           <button className="btn btn-primary" onClick={handleReenterFullscreen}>
             Re-enter Fullscreen
           </button>
