@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 /config.env
+/uploads/
+
+leafy-stock-403608-feb5e4c5e84b.json
 
 # testing
 /coverage

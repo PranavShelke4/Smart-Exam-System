@@ -95,7 +95,7 @@ function TestPage() {
     }
     if(exitFullscreenCount >= 5){
       // handleLogout();
-      handleSubmit();
+      // handleSubmit();
     }
   };
 
