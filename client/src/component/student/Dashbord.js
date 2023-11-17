@@ -6,6 +6,7 @@ function Dashbord() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState({});
   const [tests, setTests] = useState([]);
+  const [testResult, settestResult] = useState([]);
 
   const callStudentDashbordPage = async () => {
     try {
@@ -45,13 +46,28 @@ function Dashbord() {
 
       if (res.status === 200) {
         const data = await res.json();
-        console.log("Fetched Tests Data:", data); // Add this line to check the data
+        console.log("Fetched Tests Data:", data); // For Debugging
         setTests(data);
       } else {
         throw new Error("Failed to fetch tests");
       }
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const TestResult = async () => {
+    try {
+      const response = await fetch("/test-result"); 
+      if (response.status === 200) {
+        const testResult = response.testResult;
+        console.log("Fetched Test Result:", testResult);
+        settestResult(testResult);
+      } else {
+        throw new Error("Failed to fetch Test Result");
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -74,12 +90,19 @@ function Dashbord() {
                   <p className="card-text">Subject Code: {test.subjectCode}</p>
                   <p className="card-text">Total Questions: 30</p>
                   <p className="card-text">Test Time: 60 min</p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => navigate(`/start-test/${test._id}`)} // Use test._id here
-                  >
-                    Start Test
-                  </button>
+
+                  {userData.tests && userData.tests[test._id] ? (
+                    <p className="card-text">
+                      Obtained Marks: {userData.tests[test._id]}
+                    </p>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => navigate(`/start-test/${test._id}`)}
+                    >
+                      Start Test
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

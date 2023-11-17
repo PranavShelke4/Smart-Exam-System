@@ -12,7 +12,6 @@ const AuthenticateAdmin = require("../middleware/adminAuth");
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = "./leafy-stock-403608-feb5e4c5e84b.json";
 
-// Remove redundant 'client' declaration for Google Vision
 const { Storage } = require('@google-cloud/storage');
 
 const { ImageAnnotatorClient } = require('@google-cloud/vision');
@@ -80,6 +79,7 @@ router.post('/face-detection', async (req, res) => {
 });
 
 //Object Localization API
+/*
 router.post('/object-localization', async (req, res) => {
   const imageUrl = req.body.imageUrl;
   console.log('Image URL for object localization:', imageUrl);
@@ -106,7 +106,7 @@ router.post('/object-localization', async (req, res) => {
     res.status(500).json({ error: 'Object localization failed.' });
   }
 });
-
+*/
 
 //Student Registor API
 
@@ -442,6 +442,17 @@ router.get("/get-all-tests", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to fetch tests" });
+  }
+});
+
+// Fetch all tests Mark
+router.get("/test-result", async (req, res) => {
+  try {
+    const test_result = await TestSubmission.find({}, "_id testId studentId studentName totalMarks"); // Include _id for test id
+    res.status(200).json(test_result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to fetch tests result" });
   }
 });
 
