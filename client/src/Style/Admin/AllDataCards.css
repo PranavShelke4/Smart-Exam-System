@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap");
+
+.Data-Cards {
+  display: flex;
+  gap: 1.1rem;
+  width: 100%;
+  padding: 1%;
+}
+
+.datacard {
+  box-shadow: 3px 4px 11px 0px rgba(98, 98, 98, 0.15);
+  background-image: radial-gradient( circle 815px at 23.4% -21.8%,  rgba(9,29,85,1) 0.2%, rgba(0,0,0,1) 100.2% );
+  color: white;
+  padding: 2%;
+  border-radius: 10px;
+  width: 13rem;
+  border: 2px solid rgba(98, 98, 98, 0.15);
+}
+
+.card-title {
+  width: auto;
+  font-size: 1.1rem;
+  font-family: "Lato", sans-serif;
+  margin: 0;
+}
+
+
+
+

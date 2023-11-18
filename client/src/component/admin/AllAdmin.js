@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import Table from "react-bootstrap/Table";
 
 function AllAdmin() {
   const navigate = useNavigate();

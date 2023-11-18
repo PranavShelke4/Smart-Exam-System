@@ -10,11 +10,12 @@ const axios = require("axios");
 const Authenticate = require("../middleware/authenticate");
 const AuthenticateAdmin = require("../middleware/adminAuth");
 
-process.env.GOOGLE_APPLICATION_CREDENTIALS = "./leafy-stock-403608-feb5e4c5e84b.json";
+process.env.GOOGLE_APPLICATION_CREDENTIALS =
+  "./leafy-stock-403608-feb5e4c5e84b.json";
 
-const { Storage } = require('@google-cloud/storage');
+const { Storage } = require("@google-cloud/storage");
 
-const { ImageAnnotatorClient } = require('@google-cloud/vision');
+const { ImageAnnotatorClient } = require("@google-cloud/vision");
 const client = new ImageAnnotatorClient();
 
 require("../db/conn");
@@ -46,22 +47,26 @@ router.post("/upload", upload.single("file"), (req, res) => {
     return res.status(400).json({ message: "No file uploaded" });
   }
 
-  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`;
+  const imageUrl = `${req.protocol}://${req.get("host")}/uploads/${
+    req.file.filename
+  }`;
 
   res.status(200).json({ message: "File uploaded successfully", imageUrl });
 });
 
 // Face Detection API
-router.post('/face-detection', async (req, res) => {
+router.post("/face-detection", async (req, res) => {
   const imageUrl = req.body.imageUrl;
-  console.log('Image URL:', imageUrl);
+  console.log("Image URL:", imageUrl);
 
   if (!imageUrl) {
-    return res.status(400).json({ error: 'Image URL is required.' });
+    return res.status(400).json({ error: "Image URL is required." });
   }
 
   try {
-    const imageResponse = await axios.get(imageUrl, { responseType: 'arraybuffer' });
+    const imageResponse = await axios.get(imageUrl, {
+      responseType: "arraybuffer",
+    });
     const image = imageResponse.data;
 
     const results = await client.faceDetection(image);
@@ -73,8 +78,8 @@ router.post('/face-detection', async (req, res) => {
       res.status(200).json({ faces: [] }); // No faces detected
     }
   } catch (error) {
-    console.error('Face detection error:', error);
-    res.status(500).json({ error: 'Face detection failed.' });
+    console.error("Face detection error:", error);
+    res.status(500).json({ error: "Face detection failed." });
   }
 });
 
@@ -319,24 +324,18 @@ router.delete("/delete-admin/:id", AuthenticateAdmin, async (req, res) => {
 
 //Add Test
 router.post("/add-test", AuthenticateAdmin, async (req, res) => {
-  const { subjectName, subjectCode, questions } = req.body;
+  const { subjectName, subjectCode } = req.body;
 
-  if (!subjectName || !subjectCode || !questions) {
+  if (!subjectName || !subjectCode) {
     return res
       .status(400)
       .json({ error: "Please provide subject details and questions" });
   }
 
   try {
-    const newQuestions = questions.map((question) => {
-      const uniqueQuestionId = new mongoose.Types.ObjectId(); // Generate a unique ID for each question
-      return { ...question, _id: uniqueQuestionId };
-    });
-
     const newTest = new Test({
       subjectName,
       subjectCode,
-      questions: newQuestions,
     });
 
     await newTest.save();
@@ -448,7 +447,10 @@ router.get("/get-all-tests", async (req, res) => {
 // Fetch all tests Mark
 router.get("/test-result", async (req, res) => {
   try {
-    const test_result = await TestSubmission.find({}, "_id testId studentId studentName totalMarks"); // Include _id for test id
+    const test_result = await TestSubmission.find(
+      {},
+      "_id testId studentId studentName totalMarks"
+    ); // Include _id for test id
     res.status(200).json(test_result);
   } catch (error) {
     console.error(error);
@@ -478,6 +480,71 @@ router.post("/submit-test", async (req, res) => {
   } catch (error) {
     console.error("Error while saving data:", error);
     res.status(500).json({ error: "Failed to submit test" });
+  }
+});
+
+// Delete TestSubmission by ID
+router.delete(
+  "/delete-test-submission/:id",
+  AuthenticateAdmin,
+  async (req, res) => {
+    try {
+      const testSubmissionId = req.params.id;
+
+      // Find the test submission
+      const testSubmission = await TestSubmission.findById(testSubmissionId);
+      if (!testSubmission) {
+        return res.status(404).json({ message: "Test submission not found" });
+      }
+
+      // Delete the test submission
+      await testSubmission.remove();
+
+      res.status(200).json({ message: "Test submission deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Server error" });
+    }
+  }
+);
+
+// Get count of students who submitted a test
+router.get(
+  "/submitted-students-count/:testId",
+  AuthenticateAdmin,
+  async (req, res) => {
+    try {
+      const testId = req.params.testId;
+
+      const submittedStudentsCount = await TestSubmission.countDocuments({
+        testId,
+      });
+
+      res.status(200).json({ submittedStudentsCount });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+);
+
+// Fetch test details by testId
+router.get("/get-test-details/:testId", async (req, res) => {
+  const testId = req.params.testId;
+
+  try {
+    const test = await Test.findById(testId);
+    if (!test) {
+      return res.status(404).json({ message: "Test not found" });
+    }
+
+    res.status(200).json({
+      subjectName: test.subjectName,
+      subjectCode: test.subjectCode,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
