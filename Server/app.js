@@ -20,6 +20,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rout Link
 app.use(require('./route/auth'));
 
+app.use(require('./route/admin/dashbord'));
+app.use(require('./route/admin/student'));
+app.use(require('./route/admin/test'));
+app.use(require('./route/admin/admins'));
+
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {

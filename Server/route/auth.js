@@ -180,37 +180,6 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-// Admin Signup API
-router.post("/admin-signup", async (req, res) => {
-  const { name, email, number, password, cpassword } = req.body;
-
-  if (!name || !email || !number || !password || !cpassword) {
-    return res.status(422).json({ error: "Please fill all fields" });
-  }
-
-  try {
-    const adminExist = await Admin.findOne({ email: email });
-
-    if (adminExist) {
-      return res.status(422).json({ error: "Email Already Exists" });
-    } else if (password !== cpassword) {
-      return res.status(422).json({ error: "Passwords do not match" });
-    } else {
-      const admin = new Admin({ name, email, number, password });
-
-      // Hash the password before saving
-      const salt = await bcrypt.genSalt(10);
-      admin.password = await bcrypt.hash(password, salt);
-
-      await admin.save();
-
-      res.status(201).json({ message: "Admin Registered Successfully" });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
 
 // Admin Login API
 router.post("/admin-signin", async (req, res) => {
@@ -261,118 +230,6 @@ router.get("/admin-dashbord", AuthenticateAdmin, (req, res) => {
   res.send(req.rootAdmin);
 });
 
-// Get All Student
-router.get("/all-students", AuthenticateAdmin, async (req, res) => {
-  try {
-    const students = await User.find();
-    res.status(200).json({ students });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-//Delete The Student
-router.delete("/delete-student/:id", AuthenticateAdmin, async (req, res) => {
-  try {
-    const student = await User.findById(req.params.id);
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
-    }
-
-    await student.remove();
-    res.status(200).json({ message: "Student deleted" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-// Get All Admin
-router.get("/all-admins", AuthenticateAdmin, async (req, res) => {
-  try {
-    const allAdmins = await Admin.find();
-    res.status(200).json({ admins: allAdmins });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
-
-// DELETE Admin by ID
-router.delete("/delete-admin/:id", AuthenticateAdmin, async (req, res) => {
-  try {
-    const adminToDelete = await Admin.findById(req.params.id);
-
-    if (!adminToDelete) {
-      return res.status(404).json({ message: "Admin not found" });
-    }
-
-    if (adminToDelete._id.equals(req.adminID)) {
-      return res
-        .status(400)
-        .json({ message: "Cannot delete currently logged-in admin" });
-    }
-
-    await adminToDelete.remove();
-    res.status(200).json({ message: "Admin deleted successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-//Add Test
-router.post("/add-test", AuthenticateAdmin, async (req, res) => {
-  const { subjectName, subjectCode } = req.body;
-
-  if (!subjectName || !subjectCode) {
-    return res
-      .status(400)
-      .json({ error: "Please provide subject details and questions" });
-  }
-
-  try {
-    const newTest = new Test({
-      subjectName,
-      subjectCode,
-    });
-
-    await newTest.save();
-
-    res.status(200).json({ message: "Test added successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
-
-// Get All Test
-router.get("/all-test", AuthenticateAdmin, async (req, res) => {
-  try {
-    const allTests = await Test.find();
-    res.status(200).json({ tests: allTests });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
-
-//Delete The Test
-router.delete("/delete-test/:id", AuthenticateAdmin, async (req, res) => {
-  try {
-    const test = await Test.findById(req.params.id);
-    if (!test) {
-      return res.status(404).json({ message: "test not found" });
-    }
-
-    await test.remove();
-    res.status(200).json({ message: "test deleted" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
-  }
-});
 
 // Update questions, options, and correct answers for a test
 router.post("/update-test/:testId", async (req, res) => {
@@ -395,26 +252,6 @@ router.post("/update-test/:testId", async (req, res) => {
   }
 });
 
-// Save all questions for a test
-router.post("/save-all-questions/:testId", async (req, res) => {
-  try {
-    const testId = req.params.testId;
-    const { questions } = req.body;
-
-    const updatedTest = await Test.findByIdAndUpdate(
-      testId,
-      {
-        questions: questions,
-      },
-      { new: true }
-    );
-
-    res.status(200).json({ test: updatedTest });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ error: "Server Error" });
-  }
-});
 
 // Fetch questions for a specific test
 router.get("/get-test/:testId", async (req, res) => {
@@ -433,28 +270,14 @@ router.get("/get-test/:testId", async (req, res) => {
   }
 });
 
-// Fetch all tests with subject name, subject code, and test id
-router.get("/get-all-tests", async (req, res) => {
+// Get All Student
+router.get("/all-students", AuthenticateAdmin, async (req, res) => {
   try {
-    const tests = await Test.find({}, "_id subjectName subjectCode"); // Include _id for test id
-    res.status(200).json(tests);
+    const students = await User.find();
+    res.status(200).json({ students });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Failed to fetch tests" });
-  }
-});
-
-// Fetch all tests Mark
-router.get("/test-result", async (req, res) => {
-  try {
-    const test_result = await TestSubmission.find(
-      {},
-      "_id testId studentId studentName totalMarks"
-    ); // Include _id for test id
-    res.status(200).json(test_result);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Failed to fetch tests result" });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -480,71 +303,6 @@ router.post("/submit-test", async (req, res) => {
   } catch (error) {
     console.error("Error while saving data:", error);
     res.status(500).json({ error: "Failed to submit test" });
-  }
-});
-
-// Delete TestSubmission by ID
-router.delete(
-  "/delete-test-submission/:id",
-  AuthenticateAdmin,
-  async (req, res) => {
-    try {
-      const testSubmissionId = req.params.id;
-
-      // Find the test submission
-      const testSubmission = await TestSubmission.findById(testSubmissionId);
-      if (!testSubmission) {
-        return res.status(404).json({ message: "Test submission not found" });
-      }
-
-      // Delete the test submission
-      await testSubmission.remove();
-
-      res.status(200).json({ message: "Test submission deleted successfully" });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: "Server error" });
-    }
-  }
-);
-
-// Get count of students who submitted a test
-router.get(
-  "/submitted-students-count/:testId",
-  AuthenticateAdmin,
-  async (req, res) => {
-    try {
-      const testId = req.params.testId;
-
-      const submittedStudentsCount = await TestSubmission.countDocuments({
-        testId,
-      });
-
-      res.status(200).json({ submittedStudentsCount });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: "Server error" });
-    }
-  }
-);
-
-// Fetch test details by testId
-router.get("/get-test-details/:testId", async (req, res) => {
-  const testId = req.params.testId;
-
-  try {
-    const test = await Test.findById(testId);
-    if (!test) {
-      return res.status(404).json({ message: "Test not found" });
-    }
-
-    res.status(200).json({
-      subjectName: test.subjectName,
-      subjectCode: test.subjectCode,
-    });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
   }
 });
 
