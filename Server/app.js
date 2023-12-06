@@ -27,7 +27,7 @@ app.use(require('./route/admin/admins'));
 
 app.use(require('./route/student/student'));
 
-const PORT = process.env.PORT;
+const PORT = 8000;
 
 app.listen(PORT, () => {
   console.log(`Server is running at port ${PORT}`);
