@@ -61,6 +61,23 @@ router.post("/add-test", AuthenticateAdmin, async (req, res) => {
   }
 });
 
+// Fetch questions for a specific test
+router.get("/get-test/:testId", async (req, res) => {
+  const testId = req.params.testId;
+
+  try {
+    const test = await Test.findById(testId);
+    if (!test) {
+      return res.status(404).json({ message: "Test not found" });
+    }
+
+    res.status(200).json({ questions: test.questions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 // Save all questions for a test
 router.post("/save-all-questions/:testId", async (req, res) => {
   try {

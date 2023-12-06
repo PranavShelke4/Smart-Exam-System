@@ -5,7 +5,6 @@ const cors = require("cors");
 const AuthenticateAdmin = require("../../middleware/adminAuth");
 
 require("../../db/conn");
-const User = require("../../model/userSchema");
 const Admin = require("../../model/adminSchema");
 const Test = require("../../model/testModel");
 const TestSubmission = require("../../model/testSubmissionModel");

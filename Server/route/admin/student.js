@@ -9,6 +9,17 @@ const User = require("../../model/userSchema");
 
 router.use(cors());
 
+// Get All Student
+router.get("/all-students", AuthenticateAdmin, async (req, res) => {
+  try {
+    const students = await User.find();
+    res.status(200).json({ students });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 //Delete The Student
 router.delete("/delete-student/:id", AuthenticateAdmin, async (req, res) => {
   try {
