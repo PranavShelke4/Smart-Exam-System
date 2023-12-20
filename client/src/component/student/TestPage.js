@@ -93,7 +93,7 @@ function TestPage() {
       setExitFullscreenCount((prevCount) => prevCount + 1);
       setShowWarning(true);
     }
-    if(exitFullscreenCount >= 5){
+    if (exitFullscreenCount >= 5) {
       // handleLogout();
       // handleSubmit();
     }
@@ -104,7 +104,6 @@ function TestPage() {
       handleLogout();
     }
   }, [exitFullscreenCount]);
-  
 
   const enterFullscreen = () => {
     const element = document.documentElement;
@@ -134,7 +133,7 @@ function TestPage() {
       setTotalMarks(marks);
 
       const requestBody = {
-        testId: testId, 
+        testId: testId,
         studentId: userData._id,
         studentName: userData.name,
         totalMarks: marks,
@@ -178,6 +177,43 @@ function TestPage() {
     enterFullscreen();
   }, []);
 
+  useEffect(() => {
+    // Disable right click
+    document.oncontextmenu = function () {
+      return false;
+    };
+
+    // Disable certain keys
+    document.onkeydown = function (e) {
+      // Disable "Ctrl", "Left Arrow" keys
+      if (e.ctrlKey || e.keyCode === 37) {
+        return false;
+      }
+    };
+
+    // Clean up event handlers
+    return () => {
+      document.oncontextmenu = null;
+      document.onkeydown = null;
+    };
+  }, []);
+
+  useEffect(() => {
+    // Show alert on visibility change
+    const visibilityChangeHandler = () => {
+      if (document.hidden) {
+        alert("You have switched to another application or window!");
+      }
+    };
+
+    document.addEventListener("visibilitychange", visibilityChangeHandler);
+
+    // Clean up event handlers
+    return () => {
+      document.removeEventListener("visibilitychange", visibilityChangeHandler);
+    };
+  }, []);
+
   return (
     <div className="container mt-4">
       <h2 className="mb-4">Test Page</h2>
@@ -215,8 +251,12 @@ function TestPage() {
       {/* Warning div for exiting fullscreen */}
       {showWarning && (
         <div className="fullscreen-warning">
-          <p>Warning: You've exited fullscreen mode {exitFullscreenCount} time</p>
-          <p>If You Exit More thene 5 time your exam will be submit automaticly</p>
+          <p>
+            Warning: You've exited fullscreen mode {exitFullscreenCount} time
+          </p>
+          <p>
+            If You Exit More thene 5 time your exam will be submit automaticly
+          </p>
           <button className="btn btn-primary" onClick={handleReenterFullscreen}>
             Re-enter Fullscreen
           </button>
